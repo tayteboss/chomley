@@ -1,6 +1,5 @@
 import { useRef, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { incrementContributions, updateNewPoints } from '../../../firebase/firebasePoints';
 
 type Point = {
 	x: number;
@@ -9,10 +8,10 @@ type Point = {
 };
 
 type Props = {
-	initPoints: Point[];
 	drawingIsActive: boolean;
 	handleResetPoints: number;
-	handleSavePoints: number;
+	points: Point[];
+	setPoints: (points: Point[]) => void;
 };
 
 const Canvas = styled.canvas<{ $isActive: boolean }>`
@@ -27,31 +26,20 @@ const Canvas = styled.canvas<{ $isActive: boolean }>`
 
 const DrawingFeature = (props: Props) => {
 	const {
-		initPoints,
-		drawingIsActive,
-		handleResetPoints,
-		handleSavePoints
+	  drawingIsActive,
+	  handleResetPoints,
+	  points,
+	  setPoints
 	} = props;
 
 	const canvasRef = useRef<HTMLCanvasElement>(null);
-	const [points, setPoints] = useState<Point[]>(initPoints ? initPoints : []);
-
-	useEffect(() => {
-		setPoints(initPoints);
-	}, [initPoints]);
+	const [previewPoint, setPreviewPoint] = useState<Point | null>(null);
 
 	useEffect(() => {
 		if (handleResetPoints >= 1) {
 			setPoints([]);
 		}
 	}, [handleResetPoints]);
-
-	// useEffect(() => {
-	// 	if (handleSavePoints >= 1) {
-	// 		updateNewPoints(points);
-	// 		incrementContributions();
-	// 	}
-	// }, [handleSavePoints]);
 
 	useEffect(() => {
 		const canvas = canvasRef.current!;
@@ -66,38 +54,62 @@ const DrawingFeature = (props: Props) => {
 		ctx.lineCap = 'butt';
 
 		const handleMouseDown = (e: MouseEvent) => {
-			
-
 			const rect = canvas.getBoundingClientRect();
 			const x = e.clientX - rect.left;
 			const y = e.clientY - rect.top;
 			const id = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
 
-			setPoints([...points, { id, x, y, }]);
+			setPoints([...points, { id, x, y }]);
 		};
 
-		const drawLines = () => {
-			ctx.clearRect(0, 0, canvas.width, canvas.height);
+	  const handleMouseMove = (e: MouseEvent) => {
+		if (drawingIsActive) {
+			const rect = canvas.getBoundingClientRect();
+			const x = e.clientX - rect.left;
+			const y = e.clientY - rect.top;
+
+			setPreviewPoint({ id: 'preview', x, y }); // Store the preview point
+		}
+	};
+
+	const drawLines = () => {
+		ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+		// Draw existing lines if there are at least 2 points
+		if (points.length >= 2) {
 			for (let i = 0; i < points.length - 1; i++) {
 				ctx.beginPath();
 				ctx.moveTo(points[i].x, points[i].y);
 				ctx.lineTo(points[i + 1].x, points[i + 1].y);
 				ctx.stroke();
 			}
-		};
+		}
+  
+		// Draw preview line only if there are points and drawing is active
+		if (previewPoint && points.length > 0 && drawingIsActive) {
+			ctx.beginPath();
+			ctx.moveTo(points[points.length - 1].x, points[points.length - 1].y);
+			ctx.lineTo(previewPoint.x, previewPoint.y);
+			ctx.stroke();
+		} else {
+			setPreviewPoint(null); // Remove the preview line if drawing is not active
+		}
+	};
 
-		drawLines();
+	drawLines();
 
-		canvas.addEventListener('mousedown', handleMouseDown);
+	canvas.addEventListener('mousedown', handleMouseDown);
+	canvas.addEventListener('mousemove', handleMouseMove); // Listen for mouse movement
 
-		return () => {
-			canvas.removeEventListener('mousedown', handleMouseDown);
-		};
-	}, [points]);
-
+	return () => {
+		canvas.removeEventListener('mousedown', handleMouseDown);
+		canvas.removeEventListener('mousemove', handleMouseMove); // Clean up event listener
+	};
+}, [points, drawingIsActive, previewPoint]);
+  
 	return (
-		<Canvas $isActive={drawingIsActive} ref={canvasRef} />
+	  <Canvas $isActive={drawingIsActive} ref={canvasRef} />
 	);
-};
-
-export default DrawingFeature;
+  };
+  
+  export default DrawingFeature;

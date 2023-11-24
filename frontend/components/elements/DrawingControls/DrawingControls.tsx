@@ -7,6 +7,7 @@ type Props = {
 	setDrawingIsActive: (drawingIsActive: boolean) => void;
 	handleResetPoints: () => void;
 	handleSavePoints: () => void;
+	hint: boolean | string;
 };
 
 const DrawingControlsWrapper = styled.div`
@@ -39,28 +40,16 @@ const Hint = styled.p`
 
 const DrawingControls = (props: Props) => {
 	const {
-		setDrawingIsActive,
 		drawingIsActive,
+		hint,
+		setDrawingIsActive,
 		handleResetPoints,
 		handleSavePoints
 	} = props;
 
-	const [hint, setHint] = useState('');
-
 	const handleSavePointsClick = () => {
 		handleSavePoints();
-		setHint('Saved');
 	};
-
-	useEffect(() => {
-		const timeout = setTimeout(() => {
-			setHint('');
-		}, 3000);
-
-		return () => {
-			clearTimeout(timeout);
-		}
-	}, [hint]);
 
 	return (
 		<DrawingControlsWrapper>
@@ -85,7 +74,7 @@ const DrawingControls = (props: Props) => {
 					Reset
 				</Button>
 				<Span>{" "}</Span>
-				{hint.length > 0 && (
+				{hint && (
 					<Hint>{hint}</Hint>
 				)}
 			</Container>

@@ -11,8 +11,14 @@ import Header from '../components/layout/Header';
 import GigsColumn from '../components/blocks/GigsColumn';
 import ShowcasesColumn from '../components/blocks/ShowcasesColumn';
 import PodcastsColumn from '../components/blocks/PodcastsColumn';
-import { useState, useEffect, useRef, useLayoutEffect } from 'react';
+import { useState, useEffect } from 'react';
 import orderIndex from '../utils/orderIndex';
+
+type Point = {
+	x: number;
+	y: number;
+	id: string;
+};
 
 const PageWrapper = styled.div`
 	background: var(--colour-grey);
@@ -39,27 +45,41 @@ const Page = (props: Props) => {
 		showcases
 	} = props;
 
-	const [points, setPoints] = useState([]);
+	const [points, setPoints] = useState<Point[]>([]);
 	const [contributions, setContributions] = useState(0);
 	const [lastUpdated, setLastUpdated] = useState<string | null>(null);
 	const [columnWidth, setColumnWidth] = useState(0);
 	const [drawingIsActive, setDrawingIsActive] = useState(false);
 	const [handleResetPoints, setHandleResetPoints] = useState(0);
 	const [handleSavePoints, setHandleSavePoints] = useState(0);
+	const [hint, setHint] = useState<boolean | string>(false)
 
 	useEffect(() => {
-		const fetchData = async () => {
-			const contributions = await readContributions();
-			const date = await readDate();
+		setDrawingIsActive(false);
 
-			setContributions(contributions);
-			setLastUpdated(date);
+		const fetchData = async () => {
+			if (handleSavePoints >= 1) {
+				const contributions = await readContributions();
+				const date = await readDate();
+	
+				setContributions(contributions);
+				setLastUpdated(date);
+			}
 		};
 
 		const updateData = async () => {
 			if (handleSavePoints >= 1) {
+				setHint('Saving...');
 				await updateNewPoints(points);
 				await incrementContributions();
+
+				setHint('Saved');
+
+				const timer = setTimeout(() => {
+					setHint(false);
+				}, 3000);
+
+				return () => clearTimeout(timer);
 			}
 		};
 
@@ -107,10 +127,10 @@ const Page = (props: Props) => {
 				description={siteSettings.seoDescription || ''}
 			/>
 			<DrawingFeature
-				initPoints={points}
 				drawingIsActive={drawingIsActive}
 				handleResetPoints={handleResetPoints}
-				handleSavePoints={handleSavePoints}
+				points={points}
+				setPoints={setPoints}
 			/>
 			<ContentWrapper
 				$drawingIsActive={drawingIsActive}
@@ -128,6 +148,7 @@ const Page = (props: Props) => {
 							setDrawingIsActive={setDrawingIsActive}
 							handleResetPoints={() => setHandleResetPoints(handleResetPoints + 1)}
 							handleSavePoints={() => setHandleSavePoints(handleResetPoints + 1)}
+							hint={hint}
 						/>
 						<ShowcasesColumn
 							data={showcases}

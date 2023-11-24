@@ -29,11 +29,10 @@ const readDate = async () => {
 
 			if (date) {
 				const now = new Date();
-				const dateJS = date.toDate(); // Convert Firestore Timestamp to JavaScript Date
+				const dateJS = date.toDate();
 
 				const millisecondsDiff = now - dateJS;
 
-				// Calculate the time difference in seconds, minutes, hours, days, months, and years
 				const seconds = Math.floor(millisecondsDiff / 1000);
 				const minutes = Math.floor(seconds / 60);
 				const hours = Math.floor(minutes / 60);
@@ -76,7 +75,6 @@ const incrementContributions = async () => {
 			const data = siteDataDoc.data();
 			const currentDate = new Date();
 
-			// Update contributions and date fields
 			const updatedContributions = (data.contributions || 0) + 1;
 			await siteDataRef.update({
 				contributions: updatedContributions,

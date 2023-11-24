@@ -13,6 +13,7 @@ type Props = {
 	drawingIsActive: boolean;
 	contributions: number;
 	lastUpdated: string | null;
+	hint: boolean | string;
 	setDrawingIsActive: (drawingIsActive: boolean) => void;
 	handleResetPoints: () => void;
 	handleSavePoints: () => void;
@@ -46,6 +47,7 @@ const Header = (props: Props) => {
 		drawingIsActive,
 		contributions,
 		lastUpdated,
+		hint,
 		handleResetPoints,
 		handleSavePoints,
 		setDrawingIsActive
@@ -57,6 +59,7 @@ const Header = (props: Props) => {
 				<Logo>chomley</Logo>
 				<DrawingControls
 					drawingIsActive={drawingIsActive}
+					hint={hint}
 					setDrawingIsActive={setDrawingIsActive}
 					handleResetPoints={handleResetPoints}
 					handleSavePoints={handleSavePoints}
