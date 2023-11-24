@@ -42,7 +42,7 @@ export const GlobalStyles = createGlobalStyle`
 
 	html {
 		scroll-behavior: smooth;
-		background: var(--colour-dark-grey);
+		background: var(--colour-grey);
 		font-size: 16px;
 
 		&.no-scroll {
@@ -95,24 +95,28 @@ export const GlobalStyles = createGlobalStyle`
 	.type-h1 {
 		font-size: ${pxToRem(12)};
 		line-height: normal;
+		font-weight: 400;
 	}
 
 	h2,
 	.type-h2 {
 		font-size: ${pxToRem(12)};
 		line-height: normal;
+		font-weight: 400;
 	}
 
 	h3,
 	.type-h3 {
 		font-size: ${pxToRem(12)};
 		line-height: normal;
+		font-weight: 400;
 	}
 
 	h4,
 	.type-h4 {
 		font-size: ${pxToRem(12)};
 		line-height: normal;
+		font-weight: 400;
 	}
 
 	p,
@@ -199,11 +203,21 @@ export const GlobalStyles = createGlobalStyle`
 		align-items: flex-start;
 		height: 100vh;
 		overflow-y: auto;
-		padding: ${pxToRem(16)} ${pxToRem(16)} ${pxToRem(16)} 0;
 
 		&__header {
-			height: 20vh;
+			min-height: 20vh;
 		}
+	}
+
+	/* Hide scrollbar for Chrome, Safari and Opera */
+	.hide-scrollbar::-webkit-scrollbar {
+		display: none;
+	}
+
+	/* Hide scrollbar for IE, Edge and Firefox */
+	.hide-scrollbar {
+		-ms-overflow-style: none;  /* IE and Edge */
+		scrollbar-width: none;  /* Firefox */
 	}
 
 	::placeholder {

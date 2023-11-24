@@ -19,6 +19,7 @@
     "babel-plugin-styled-components": "^2.0.5",
     "base-64": "^1.0.0",
     "crypto": "^1.0.1",
+    "date-fns": "^2.30.0",
     "dotenv": "^10.0.0",
     "firebase": "^10.6.0",
     "framer-motion": "^8.4.6",

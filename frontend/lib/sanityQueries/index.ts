@@ -4,15 +4,15 @@ export const siteSettingsQueryString = `
 	}
 `;
 
-export const homePageQueryString = `
-	*[_type == 'homePage'][0] {
-		...,
-	}
-`;
-
 export const gigsQueryString = `
 	*[_type == 'gig'] {
 		...,
+		artists[]->{
+			...
+		},
+		credits[]->{
+			...
+		}
 	}
 `;
 
@@ -25,5 +25,11 @@ export const podcastsQueryString = `
 export const showcasesQueryString = `
 	*[_type == 'showcase'] {
 		...,
+		artists[]->{
+			...
+		},
+		credits[]->{
+			...
+		}
 	}
 `;

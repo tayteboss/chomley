@@ -38,3 +38,52 @@ export type SiteSettingsType = {
 	seoTitle: string;
 	seoDescription: string;
 };
+
+export type ArtistType = {
+	title: string;
+	link: string;
+	alias: string;
+	actType: string;
+};
+
+export type CreditType = {
+	title: string;
+	service: string;
+	link: string;
+};
+
+export type ShowcaseType = {
+	artists: ArtistType[];
+	credits: CreditType[];
+	date: string;
+	excerpt: string;
+	location: string;
+	locationUrl: string;
+	title: string;
+	indexYear: string;
+	formattedDate: string;
+	indexYearPrefix: string;
+}
+
+export type GigType = {
+	title: string;
+	artists: ArtistType[];
+	credits: CreditType[];
+	date: string;
+	excerpt: string;
+	location: string;
+	locationUrl: string;
+	indexYear: string;
+	formattedDate: string;
+	indexYearPrefix: string;
+}
+
+export type PodcastType = {
+	title: string;
+	date: string;
+	excerpt: string;
+	link: string;
+	linkTitle: string;
+	indexYear: string;
+	formattedDate: string;
+}
