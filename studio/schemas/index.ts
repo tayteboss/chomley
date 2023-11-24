@@ -13,5 +13,3 @@ export const schemaTypes = [
 	gig,
 	podcast
 ];
-
-

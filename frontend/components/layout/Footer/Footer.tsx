@@ -1,11 +1,56 @@
 import styled from 'styled-components';
+import pxToRem from '../../../utils/pxToRem';
+
+type Props = {
+	instagramUrl: string;
+	soundcloudUrl: string;
+	email: string;
+};
 
 const FooterWrapper = styled.footer``;
 
-const Footer = () => {
+const LinksWrapper = styled.div`
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	margin-bottom: ${pxToRem(16)};
+`;
+
+const Link = styled.a``;
+
+const CreditsWrapper = styled.div``;
+
+const Footer = (props: Props) => {
+	const {
+		instagramUrl,
+		soundcloudUrl,
+		email
+	} = props;
+
 	return (
 		<FooterWrapper>
-			Footer
+			<LinksWrapper>
+				{email && (
+					<Link href={`mailto: ${email}`} target="_blank">
+						Email
+					</Link>
+				)}	
+				{instagramUrl && (
+					<Link href={instagramUrl} target="_blank">
+						Instagram
+					</Link>
+				)}	
+				{soundcloudUrl && (
+					<Link href={soundcloudUrl} target="_blank">
+						Soundcloud
+					</Link>
+				)}	
+			</LinksWrapper>
+			<CreditsWrapper>
+				<Link href="https://www.tayte.co/" target="_blank">
+					Built by tayte.co
+				</Link>
+			</CreditsWrapper>
 		</FooterWrapper>
 	)
 };

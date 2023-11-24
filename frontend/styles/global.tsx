@@ -7,6 +7,9 @@ export const GlobalStyles = createGlobalStyle`
 		--colour-white: ${theme.colours.white};
 		--colour-black: ${theme.colours.black};
 		--colour-yellow: ${theme.colours.yellow};
+		--colour-blue: ${theme.colours.blue};
+		--colour-grey: ${theme.colours.grey};
+		--colour-dark-grey: ${theme.colours.darkGrey};
 		--font-mono-reg: ${theme.fonts.monoReg};
 		--font-mono-med: ${theme.fonts.monoMed};
 		--font-sans-text: ${theme.fonts.sansText};
@@ -34,12 +37,12 @@ export const GlobalStyles = createGlobalStyle`
 
 	::selection {
 		background-color: var(--colour-yellow);
-		color: var(--colour-black);
+		color: var(--colour-dark-grey);
 	}
 
 	html {
 		scroll-behavior: smooth;
-		background: var(--colour-grey);
+		background: var(--colour-dark-grey);
 		font-size: 16px;
 
 		&.no-scroll {
@@ -62,7 +65,7 @@ export const GlobalStyles = createGlobalStyle`
 	label,
 	body {
 		font-family: var(--font-mono-reg);
-		color: var(--colour-black);
+		color: var(--colour-dark-grey);
 		line-height: normal;
 	}
 
@@ -77,7 +80,11 @@ export const GlobalStyles = createGlobalStyle`
 
 	a {
 		text-decoration: underline;
-		color: var(--colour-black);
+		color: var(--colour-dark-grey);
+
+		&:hover {
+			color: var(--colour-blue);
+		}
 	}
 
 	button {
@@ -184,6 +191,19 @@ export const GlobalStyles = createGlobalStyle`
 		perspective: 1000;
 		transform: translate3d(0,0,0);
 		transform: translateZ(0);
+	}
+
+	.column {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		height: 100vh;
+		overflow-y: auto;
+		padding: ${pxToRem(16)} ${pxToRem(16)} ${pxToRem(16)} 0;
+
+		&__header {
+			height: 20vh;
+		}
 	}
 
 	::placeholder {

@@ -3,7 +3,9 @@ export const theme = {
 		black: '#000',
 		white: '#FFF',
 		grey: '#F5F5F5',
-		yellow: '#CCFF00'
+		darkGrey: '#242426',
+		yellow: '#CCFF00',
+		blue: '#002FA7',
 	},
 	fonts: {
 		monoReg: 'IBM Plex Mono Regular',

@@ -29,3 +29,12 @@ export type TransitionsType = {
 		}
 	}
 };
+
+export type SiteSettingsType = {
+	instagramUrl: string;
+	soundcloudUrl: string;
+	email: string;
+	excerpt: string;
+	seoTitle: string;
+	seoDescription: string;
+};

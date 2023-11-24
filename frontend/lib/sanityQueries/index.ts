@@ -9,3 +9,21 @@ export const homePageQueryString = `
 		...,
 	}
 `;
+
+export const gigsQueryString = `
+	*[_type == 'gig'] {
+		...,
+	}
+`;
+
+export const podcastsQueryString = `
+	*[_type == 'podcast'] {
+		...,
+	}
+`;
+
+export const showcasesQueryString = `
+	*[_type == 'showcase'] {
+		...,
+	}
+`;

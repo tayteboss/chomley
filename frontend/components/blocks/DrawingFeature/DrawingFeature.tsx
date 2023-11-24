@@ -15,7 +15,10 @@ type Props = {
 const Canvas = styled.canvas`
 	width: 100%;
 	height: 100vh;
-	background: #F5F5F5;
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 1;
 `;
 
 const Button = styled.button``;
@@ -79,12 +82,6 @@ const DrawingFeature = (props: Props) => {
 	return (
 		<>
 			<Canvas ref={canvasRef} />
-			<Button onClick={() => handleSavePoints()}>
-				Save
-			</Button>
-			<Button onClick={() => handleClearPoints()}>
-				Clear
-			</Button>
 		</>
 	);
 };

@@ -4,6 +4,18 @@ export default {
 	type: "document",
 	fields: [
 		{
+			title: 'SEO Title',
+			name: 'seoTitle',
+			type: 'string',
+			description: 'This is the SEO title that appears in search engines.'
+		},
+		{
+			title: 'SEO Description',
+			name: 'seoDescription',
+			type: 'string',
+			description: 'This is the SEO description that appears in search engines.'
+		},
+		{
 			title: "Instagram URL",
 			name: "instagramUrl",
 			type: "url"
