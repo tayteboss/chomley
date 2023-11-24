@@ -34,7 +34,12 @@ const getSiteData = async () => {
 	const query = `
 		query {
 			allSiteSettings {
-				
+				instagramUrl
+				soundcloudUrl
+				email
+				excerpt
+				seoTitle
+				seoDescription
 			}
 		}
 	`;
