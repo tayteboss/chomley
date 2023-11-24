@@ -3,6 +3,7 @@ import DrawingControls from '../../elements/DrawingControls';
 import About from '../../elements/About';
 import Footer from '../Footer';
 import pxToRem from '../../../utils/pxToRem';
+import Stats from '../../elements/Stats';
 
 type Props = {
 	instagramUrl: string;
@@ -10,6 +11,8 @@ type Props = {
 	email: string;
 	excerpt: string;
 	drawingIsActive: boolean;
+	contributions: number;
+	lastUpdated: string | null;
 	setDrawingIsActive: (drawingIsActive: boolean) => void;
 	handleResetPoints: () => void;
 	handleSavePoints: () => void;
@@ -40,9 +43,11 @@ const Header = (props: Props) => {
 		soundcloudUrl,
 		email,
 		excerpt,
+		drawingIsActive,
+		contributions,
+		lastUpdated,
 		handleResetPoints,
 		handleSavePoints,
-		drawingIsActive,
 		setDrawingIsActive
 	} = props;
 
@@ -56,8 +61,16 @@ const Header = (props: Props) => {
 					handleResetPoints={handleResetPoints}
 					handleSavePoints={handleSavePoints}
 				/>
+				<Stats
+					contributions={contributions}
+					lastUpdated={lastUpdated}
+				/>
 			</ColumnHeader>
-			<About data={excerpt} />
+			<About
+				data={excerpt}
+				contributions={contributions}
+				lastUpdated={lastUpdated}
+			/>
 			<Footer
 				instagramUrl={instagramUrl}
 				soundcloudUrl={soundcloudUrl}

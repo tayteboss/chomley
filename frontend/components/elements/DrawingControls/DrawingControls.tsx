@@ -14,6 +14,7 @@ const DrawingControlsWrapper = styled.div`
 	flex-direction: column;
 	align-items: flex-start;
 	pointer-events: all;
+	margin-bottom: ${pxToRem(8)};
 `;
 
 const Container = styled.div`
@@ -33,12 +34,7 @@ const Span = styled.span`
 `;
 
 const Hint = styled.p`
-	background: var(--colour-dark-grey);
-	color: var(--colour-grey);
-	border-radius: 100px;
-	margin-top: ${pxToRem(4)};
-	padding: 0 ${pxToRem(8)} ${pxToRem(1)};
-	font-size: ${pxToRem(10)};
+	color: var(--colour-blue);
 `;
 
 const DrawingControls = (props: Props) => {
@@ -53,13 +49,13 @@ const DrawingControls = (props: Props) => {
 
 	const handleSavePointsClick = () => {
 		handleSavePoints();
-		setHint('Saved artwork');
+		setHint('Saved');
 	};
 
 	useEffect(() => {
 		const timeout = setTimeout(() => {
 			setHint('');
-		}, 4000);
+		}, 3000);
 
 		return () => {
 			clearTimeout(timeout);
@@ -88,10 +84,11 @@ const DrawingControls = (props: Props) => {
 				>
 					Reset
 				</Button>
+				<Span>{" "}</Span>
+				{hint.length > 0 && (
+					<Hint>{hint}</Hint>
+				)}
 			</Container>
-			{hint.length > 0 && (
-				<Hint>{hint}</Hint>
-			)}
 		</DrawingControlsWrapper>
 	);
 };

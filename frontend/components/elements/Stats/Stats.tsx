@@ -1,14 +1,32 @@
 import styled from 'styled-components';
 
+type Props = {
+	contributions: number;
+	lastUpdated: string | null;
+};
+
 const StatsWrapper = styled.div``;
 
 const Title = styled.p``;
 
-const Stats = () => {
+const Stats = (props: Props) => {
+	const {
+		contributions,
+		lastUpdated
+	} = props;
+
+	const isLoading = contributions === 0 && lastUpdated === null;
+
 	return (
 		<StatsWrapper>
-			<Title>Last update [XX days ago]</Title>
-			<Title>Contributions [XXX]</Title>
+			{isLoading ? (
+				<Title>Loading...</Title>
+			) : (
+				<>
+					<Title>Last update [{lastUpdated}]</Title>
+					<Title>Contributions [{contributions}]</Title>
+				</>
+			)}
 		</StatsWrapper>
 	);
 };

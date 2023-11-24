@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { NextSeo } from 'next-seo';
 import DrawingFeature from '../components/blocks/DrawingFeature';
-import { readAllPoints } from '../firebase/firebasePoints';
+import { incrementContributions, readAllPoints, readContributions, readDate, updateNewPoints } from '../firebase/firebasePoints';
 import client from '../client';
 import { gigsQueryString, podcastsQueryString, showcasesQueryString, siteSettingsQueryString } from '../lib/sanityQueries';
 import { SiteSettingsType } from '../shared/types/types';
@@ -11,7 +11,7 @@ import Header from '../components/layout/Header';
 import GigsColumn from '../components/blocks/GigsColumn';
 import ShowcasesColumn from '../components/blocks/ShowcasesColumn';
 import PodcastsColumn from '../components/blocks/PodcastsColumn';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useLayoutEffect } from 'react';
 import orderIndex from '../utils/orderIndex';
 
 const PageWrapper = styled.div`
@@ -40,6 +40,8 @@ const Page = (props: Props) => {
 	} = props;
 
 	const [points, setPoints] = useState([]);
+	const [contributions, setContributions] = useState(0);
+	const [lastUpdated, setLastUpdated] = useState<string | null>(null);
 	const [columnWidth, setColumnWidth] = useState(0);
 	const [drawingIsActive, setDrawingIsActive] = useState(false);
 	const [handleResetPoints, setHandleResetPoints] = useState(0);
@@ -47,8 +49,37 @@ const Page = (props: Props) => {
 
 	useEffect(() => {
 		const fetchData = async () => {
+			const contributions = await readContributions();
+			const date = await readDate();
+
+			setContributions(contributions);
+			setLastUpdated(date);
+		};
+
+		const updateData = async () => {
+			if (handleSavePoints >= 1) {
+				await updateNewPoints(points);
+				await incrementContributions();
+			}
+		};
+
+		const fetchDataAndUpdate = async () => {
+			await updateData();
+			await fetchData();
+		};
+
+		fetchDataAndUpdate();
+	}, [handleSavePoints]);
+
+	useEffect(() => {
+		const fetchData = async () => {
 			const points = await readAllPoints();
+			const contributions = await readContributions();
+			const date = await readDate();
+
 			setPoints(points);
+			setContributions(contributions);
+			setLastUpdated(date);
 		};
 		fetchData();
 	}, []);
@@ -91,8 +122,10 @@ const Page = (props: Props) => {
 							soundcloudUrl={siteSettings.soundcloudUrl}
 							email={siteSettings.email}
 							excerpt={siteSettings.excerpt}
-							setDrawingIsActive={setDrawingIsActive}
 							drawingIsActive={drawingIsActive}
+							contributions={contributions}
+							lastUpdated={lastUpdated}
+							setDrawingIsActive={setDrawingIsActive}
 							handleResetPoints={() => setHandleResetPoints(handleResetPoints + 1)}
 							handleSavePoints={() => setHandleSavePoints(handleResetPoints + 1)}
 						/>

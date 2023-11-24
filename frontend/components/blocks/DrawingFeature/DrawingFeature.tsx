@@ -1,6 +1,6 @@
 import { useRef, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { updateNewPoints } from '../../../firebase/firebasePoints';
+import { incrementContributions, updateNewPoints } from '../../../firebase/firebasePoints';
 
 type Point = {
 	x: number;
@@ -44,11 +44,14 @@ const DrawingFeature = (props: Props) => {
 		if (handleResetPoints >= 1) {
 			setPoints([]);
 		}
+	}, [handleResetPoints]);
 
-		if (handleSavePoints >= 1) {
-			updateNewPoints(points);
-		}
-	}, [handleResetPoints, handleSavePoints]);
+	// useEffect(() => {
+	// 	if (handleSavePoints >= 1) {
+	// 		updateNewPoints(points);
+	// 		incrementContributions();
+	// 	}
+	// }, [handleSavePoints]);
 
 	useEffect(() => {
 		const canvas = canvasRef.current!;

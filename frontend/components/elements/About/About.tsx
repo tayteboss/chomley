@@ -4,6 +4,8 @@ import pxToRem from '../../../utils/pxToRem';
 
 type Props = {
 	data: string;
+	contributions: number;
+	lastUpdated: string | null;
 };
 
 const AboutWrapper = styled.div`
@@ -16,7 +18,9 @@ const Excerpt = styled.p`
 
 const About = (props: Props) => {
 	const {
-		data
+		data,
+		contributions,
+		lastUpdated
 	} = props;
 
 	return (
@@ -24,7 +28,10 @@ const About = (props: Props) => {
 			{data && (
 				<Excerpt>{data}</Excerpt>
 			)}
-			<Stats />
+			{/* <Stats
+				contributions={contributions}
+				lastUpdated={lastUpdated}
+			/> */}
 		</AboutWrapper>
 	);
 };
