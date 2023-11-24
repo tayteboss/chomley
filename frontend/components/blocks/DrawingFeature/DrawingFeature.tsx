@@ -10,34 +10,45 @@ type Point = {
 
 type Props = {
 	initPoints: Point[];
+	drawingIsActive: boolean;
+	handleResetPoints: number;
+	handleSavePoints: number;
 };
 
-const Canvas = styled.canvas`
+const Canvas = styled.canvas<{ $isActive: boolean }>`
 	width: 100%;
 	height: 100vh;
 	position: fixed;
 	top: 0;
 	left: 0;
 	z-index: 1;
+	pointer-events: ${(props) => props.$isActive ? 'auto' : 'none'};
 `;
-
-const Button = styled.button``;
 
 const DrawingFeature = (props: Props) => {
 	const {
-		initPoints
+		initPoints,
+		drawingIsActive,
+		handleResetPoints,
+		handleSavePoints
 	} = props;
 
 	const canvasRef = useRef<HTMLCanvasElement>(null);
 	const [points, setPoints] = useState<Point[]>(initPoints ? initPoints : []);
 
-	const handleSavePoints = () => {
-		updateNewPoints(points);
-	};
+	useEffect(() => {
+		setPoints(initPoints);
+	}, [initPoints]);
 
-	const handleClearPoints = () => {
-		setPoints([]);
-	};
+	useEffect(() => {
+		if (handleResetPoints >= 1) {
+			setPoints([]);
+		}
+
+		if (handleSavePoints >= 1) {
+			updateNewPoints(points);
+		}
+	}, [handleResetPoints, handleSavePoints]);
 
 	useEffect(() => {
 		const canvas = canvasRef.current!;
@@ -52,6 +63,8 @@ const DrawingFeature = (props: Props) => {
 		ctx.lineCap = 'butt';
 
 		const handleMouseDown = (e: MouseEvent) => {
+			
+
 			const rect = canvas.getBoundingClientRect();
 			const x = e.clientX - rect.left;
 			const y = e.clientY - rect.top;
@@ -80,9 +93,7 @@ const DrawingFeature = (props: Props) => {
 	}, [points]);
 
 	return (
-		<>
-			<Canvas ref={canvasRef} />
-		</>
+		<Canvas $isActive={drawingIsActive} ref={canvasRef} />
 	);
 };
 

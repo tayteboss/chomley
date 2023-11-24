@@ -9,6 +9,10 @@ type Props = {
 	soundcloudUrl: string;
 	email: string;
 	excerpt: string;
+	drawingIsActive: boolean;
+	setDrawingIsActive: (drawingIsActive: boolean) => void;
+	handleResetPoints: () => void;
+	handleSavePoints: () => void;
 };
 
 const HeaderWrapper = styled.header`
@@ -35,14 +39,23 @@ const Header = (props: Props) => {
 		instagramUrl,
 		soundcloudUrl,
 		email,
-		excerpt
+		excerpt,
+		handleResetPoints,
+		handleSavePoints,
+		drawingIsActive,
+		setDrawingIsActive
 	} = props;
 
 	return (
 		<HeaderWrapper className="header">
 			<ColumnHeader>
 				<Logo>chomley</Logo>
-				<DrawingControls />
+				<DrawingControls
+					drawingIsActive={drawingIsActive}
+					setDrawingIsActive={setDrawingIsActive}
+					handleResetPoints={handleResetPoints}
+					handleSavePoints={handleSavePoints}
+				/>
 			</ColumnHeader>
 			<About data={excerpt} />
 			<Footer

@@ -52,6 +52,10 @@ export const GlobalStyles = createGlobalStyle`
 				overflow-y: hidden;
 			}
 		}
+
+		&.is-drawing {
+			cursor: crosshair;
+		}
 	}
 
 	body {

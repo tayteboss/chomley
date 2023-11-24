@@ -18,9 +18,10 @@ const PageWrapper = styled.div`
 	background: var(--colour-grey);
 `;
 
-const ContentWrapper = styled.div`
+const ContentWrapper = styled.div<{ $drawingIsActive: boolean }>`
 	position: relative;
 	z-index: 10;
+	pointer-events: ${(props) => props.$drawingIsActive ? 'none' : 'auto'};
 `;
 
 type Props = {
@@ -40,6 +41,9 @@ const Page = (props: Props) => {
 
 	const [points, setPoints] = useState([]);
 	const [columnWidth, setColumnWidth] = useState(0);
+	const [drawingIsActive, setDrawingIsActive] = useState(false);
+	const [handleResetPoints, setHandleResetPoints] = useState(0);
+	const [handleSavePoints, setHandleSavePoints] = useState(0);
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -48,6 +52,16 @@ const Page = (props: Props) => {
 		};
 		fetchData();
 	}, []);
+
+	useEffect(() => {
+		const html = document.querySelector('html')!;
+
+		if (drawingIsActive) {
+			html.classList.add('is-drawing');
+		} else {
+			html.classList.remove('is-drawing');
+		}
+	}, [drawingIsActive]);
 
 	// console.log('points', points);
 	// console.log('gigs', gigs);
@@ -61,8 +75,15 @@ const Page = (props: Props) => {
 				title={siteSettings.seoTitle || ''}
 				description={siteSettings.seoDescription || ''}
 			/>
-			{/* <DrawingFeature initPoints={points} /> */}
-			<ContentWrapper>
+			<DrawingFeature
+				initPoints={points}
+				drawingIsActive={drawingIsActive}
+				handleResetPoints={handleResetPoints}
+				handleSavePoints={handleSavePoints}
+			/>
+			<ContentWrapper
+				$drawingIsActive={drawingIsActive}
+			>
 				<LayoutWrapper>
 					<LayoutGrid>
 						<Header
@@ -70,6 +91,10 @@ const Page = (props: Props) => {
 							soundcloudUrl={siteSettings.soundcloudUrl}
 							email={siteSettings.email}
 							excerpt={siteSettings.excerpt}
+							setDrawingIsActive={setDrawingIsActive}
+							drawingIsActive={drawingIsActive}
+							handleResetPoints={() => setHandleResetPoints(handleResetPoints + 1)}
+							handleSavePoints={() => setHandleSavePoints(handleResetPoints + 1)}
 						/>
 						<ShowcasesColumn
 							data={showcases}
