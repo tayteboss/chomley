@@ -10,7 +10,7 @@ export const theme = {
 	fonts: {
 		monoReg: 'IBM Plex Mono Regular',
 		monoMed: 'IBM Plex Mono Medium',
-		sansText: 'IBM Plex Sans Text',
+		sansText: 'IBM Plex Sans Text, sans-serif',
 	},
 	size: {
 		small: '1rem',
