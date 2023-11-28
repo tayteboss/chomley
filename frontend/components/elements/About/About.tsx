@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import Stats from '../Stats';
 import pxToRem from '../../../utils/pxToRem';
 
 type Props = {
@@ -10,10 +9,19 @@ type Props = {
 
 const AboutWrapper = styled.div`
 	flex: 1;
+
+	@media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
+		padding: ${pxToRem(16)} ${pxToRem(16)} 0;
+		margin-bottom: ${pxToRem(16)};
+	}
 `;
 
 const Excerpt = styled.p`
 	margin-bottom: ${pxToRem(16)};
+
+	@media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
+		margin-bottom: 0;
+	}
 `;
 
 const About = (props: Props) => {
@@ -28,10 +36,6 @@ const About = (props: Props) => {
 			{data && (
 				<Excerpt>{data}</Excerpt>
 			)}
-			{/* <Stats
-				contributions={contributions}
-				lastUpdated={lastUpdated}
-			/> */}
 		</AboutWrapper>
 	);
 };

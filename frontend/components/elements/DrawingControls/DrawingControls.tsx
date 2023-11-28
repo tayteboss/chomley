@@ -16,6 +16,10 @@ const DrawingControlsWrapper = styled.div`
 	align-items: flex-start;
 	pointer-events: all;
 	margin-bottom: ${pxToRem(8)};
+
+	@media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
+		display: none;
+	}
 `;
 
 const Container = styled.div`

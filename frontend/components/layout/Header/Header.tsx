@@ -4,6 +4,8 @@ import About from '../../elements/About';
 import Footer from '../Footer';
 import pxToRem from '../../../utils/pxToRem';
 import Stats from '../../elements/Stats';
+import VideoPlayer from '../../elements/VideoPlayer';
+import ImageThumbnail from '../../elements/ImageThumbnail';
 
 type Props = {
 	instagramUrl: string;
@@ -14,6 +16,8 @@ type Props = {
 	contributions: number;
 	lastUpdated: string | null;
 	hint: boolean | string;
+	videoData: string | boolean;
+	imageData: string | boolean;
 	setDrawingIsActive: (drawingIsActive: boolean) => void;
 	handleResetPoints: () => void;
 	handleSavePoints: () => void;
@@ -28,14 +32,38 @@ const HeaderWrapper = styled.header`
 	align-items: flex-start;
 	height: 100vh;
 	overflow-y: auto;
+	position: relative;
+
+	@media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
+		height: unset;
+		padding: 0;
+		border-bottom: 1px solid var(--colour-black);
+		overflow-y: unset;
+	}
 `;
 
 const ColumnHeader = styled.div`
 	min-height: 30vh;
+
+	@media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
+		position: sticky;
+		top: 0;
+		left: unset;
+		min-height: unset;
+		padding: ${pxToRem(16)};
+		border-bottom: 1px solid var(--colour-black);
+		width: 100%;
+		z-index: 10;
+		background: var(--colour-grey);
+	}
 `;
 
 const Logo = styled.div`
 	margin-bottom: ${pxToRem(16)};
+
+	@media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
+		margin-bottom: 0;
+	}
 `;
 
 const Header = (props: Props) => {
@@ -48,6 +76,8 @@ const Header = (props: Props) => {
 		contributions,
 		lastUpdated,
 		hint,
+		videoData,
+		imageData,
 		handleResetPoints,
 		handleSavePoints,
 		setDrawingIsActive
@@ -79,6 +109,8 @@ const Header = (props: Props) => {
 				soundcloudUrl={soundcloudUrl}
 				email={email}
 			/>
+			<VideoPlayer data={videoData} />
+			<ImageThumbnail data={imageData} />
 		</HeaderWrapper>
 	)
 };

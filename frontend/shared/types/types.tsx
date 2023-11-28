@@ -52,6 +52,12 @@ export type CreditType = {
 	link: string;
 };
 
+export type MuxVideoType = {
+	asset: {
+		playbackId: string;
+	}
+};
+
 export type ShowcaseType = {
 	artists: ArtistType[];
 	credits: CreditType[];
@@ -63,6 +69,9 @@ export type ShowcaseType = {
 	indexYear: string;
 	formattedDate: string;
 	indexYearPrefix: string;
+	video?: MuxVideoType;
+	drawingIsActive: boolean;
+	setVideoData: (video: string | boolean) => void;
 }
 
 export type GigType = {
@@ -76,6 +85,8 @@ export type GigType = {
 	indexYear: string;
 	formattedDate: string;
 	indexYearPrefix: string;
+	drawingIsActive: boolean;
+	video?: MuxVideoType;
 }
 
 export type PodcastType = {
@@ -86,4 +97,8 @@ export type PodcastType = {
 	linkTitle: string;
 	indexYear: string;
 	formattedDate: string;
+	video?: MuxVideoType;
+	images: any;
+	drawingIsActive: boolean;
+	setImageData: (images: string | boolean) => void;
 }

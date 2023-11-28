@@ -2,8 +2,9 @@ import styled from 'styled-components';
 import { PodcastType } from '../../../shared/types/types';
 import pxToRem from '../../../utils/pxToRem';
 
-const PodcastCardWrapper = styled.div`
+const PodcastCardWrapper = styled.div<{ $drawingIsActive: boolean }>`
 	margin-bottom: ${pxToRem(24)};
+	pointer-events: ${(props) => props.$drawingIsActive ? 'none' : 'auto'};
 `;
 
 const Index = styled.h4`
@@ -35,11 +36,18 @@ const PodcastCard = (props: PodcastType) => {
 		excerpt,
 		link,
 		linkTitle,
-		indexYear
+		indexYear,
+		drawingIsActive,
+		setImageData,
+		images
 	} = props;
 
 	return (
-		<PodcastCardWrapper>
+		<PodcastCardWrapper
+			onMouseOver={() => setImageData(images?.asset.url || false)}
+			onMouseOut={() => setImageData(false)}
+			$drawingIsActive={drawingIsActive}
+		>
 			{indexYear && (
 				<Index>P{indexYear}</Index>
 			)}

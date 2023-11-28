@@ -22,6 +22,10 @@ const Canvas = styled.canvas<{ $isActive: boolean }>`
 	left: 0;
 	z-index: 1;
 	pointer-events: ${(props) => props.$isActive ? 'auto' : 'none'};
+
+	@media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
+		display: none;
+	}
 `;
 
 const DrawingFeature = (props: Props) => {

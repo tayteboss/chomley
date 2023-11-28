@@ -7,7 +7,11 @@ type Props = {
 	email: string;
 };
 
-const FooterWrapper = styled.footer``;
+const FooterWrapper = styled.footer`
+	@media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
+		padding: 0 ${pxToRem(16)};
+	}
+`;
 
 const LinksWrapper = styled.div`
 	display: flex;
@@ -18,7 +22,11 @@ const LinksWrapper = styled.div`
 
 const Link = styled.a``;
 
-const CreditsWrapper = styled.div``;
+const CreditsWrapper = styled.div`
+	@media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
+		display: none;
+	}
+`;
 
 const Footer = (props: Props) => {
 	const {

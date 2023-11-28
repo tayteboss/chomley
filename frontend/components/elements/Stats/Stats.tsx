@@ -5,7 +5,11 @@ type Props = {
 	lastUpdated: string | null;
 };
 
-const StatsWrapper = styled.div``;
+const StatsWrapper = styled.div`
+	@media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
+		display: none;
+	}
+`;
 
 const Title = styled.p``;
 

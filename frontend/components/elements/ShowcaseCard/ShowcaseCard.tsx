@@ -4,8 +4,9 @@ import Credits from '../../blocks/Credits';
 import Artists from '../../blocks/Artists';
 import pxToRem from '../../../utils/pxToRem';
 
-const ShowcaseCardWrapper = styled.div`
+const ShowcaseCardWrapper = styled.div<{ $drawingIsActive: boolean }>`
 	margin-bottom: ${pxToRem(24)};
+	pointer-events: ${(props) => props.$drawingIsActive ? 'none' : 'all'};
 `;
 
 const Index = styled.h4`
@@ -47,11 +48,18 @@ const ShowcaseCard = (props: ShowcaseType) => {
 		location,
 		locationUrl,
 		indexYear,
-		indexYearPrefix
+		indexYearPrefix,
+		video,
+		drawingIsActive,
+		setVideoData
 	} = props;
 
 	return (
-		<ShowcaseCardWrapper>
+		<ShowcaseCardWrapper
+			onMouseOver={() => setVideoData(video?.asset?.playbackId || false)}
+			onMouseOut={() => setVideoData(false)}
+			$drawingIsActive={drawingIsActive}
+		>
 			{indexYear && (
 				<Index>{indexYearPrefix}{indexYear}</Index>
 			)}

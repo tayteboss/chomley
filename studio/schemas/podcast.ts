@@ -29,21 +29,9 @@ export default {
 			type: 'url'
 		},
 		{
-			title: 'Images',
+			title: 'Image',
 			name: 'images',
-			type: 'array',
-			description: 'Choose either images or a video',
-			of: [
-				{
-					type: 'image',
-				}
-			]
-		},
-		{
-			title: 'Video',
-			name: 'video',
-			type: 'mux.video',
-			description: 'Choose either images or a video',
+			type: 'image',
 		}
 	]
 }

@@ -4,7 +4,7 @@ import DrawingFeature from '../components/blocks/DrawingFeature';
 import { incrementContributions, readAllPoints, readContributions, readDate, updateNewPoints } from '../firebase/firebasePoints';
 import client from '../client';
 import { gigsQueryString, podcastsQueryString, showcasesQueryString, siteSettingsQueryString } from '../lib/sanityQueries';
-import { SiteSettingsType } from '../shared/types/types';
+import { MuxVideoType, SiteSettingsType } from '../shared/types/types';
 import LayoutWrapper from '../components/common/LayoutWrapper';
 import LayoutGrid from '../components/common/LayoutGrid';
 import Header from '../components/layout/Header';
@@ -24,10 +24,26 @@ const PageWrapper = styled.div`
 	background: var(--colour-grey);
 `;
 
-const ContentWrapper = styled.div<{ $drawingIsActive: boolean }>`
+const DesktopContentWrapper = styled.div<{ $drawingIsActive: boolean }>`
 	position: relative;
 	z-index: 10;
 	pointer-events: ${(props) => props.$drawingIsActive ? 'none' : 'auto'};
+
+	@media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
+		display: none;
+	}
+`;
+
+const MobileContentWrapper = styled.div`
+	display: none;
+
+	@media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		position: relative;
+		z-index: 10;
+	}
 `;
 
 type Props = {
@@ -52,7 +68,9 @@ const Page = (props: Props) => {
 	const [drawingIsActive, setDrawingIsActive] = useState(false);
 	const [handleResetPoints, setHandleResetPoints] = useState(0);
 	const [handleSavePoints, setHandleSavePoints] = useState(0);
-	const [hint, setHint] = useState<boolean | string>(false)
+	const [hint, setHint] = useState<boolean | string>(false);
+	const [videoData, setVideoData] = useState<string | boolean>(false);
+	const [imageData, setImageData] = useState<string | boolean>(false);
 
 	useEffect(() => {
 		setDrawingIsActive(false);
@@ -114,12 +132,6 @@ const Page = (props: Props) => {
 		}
 	}, [drawingIsActive]);
 
-	// console.log('points', points);
-	// console.log('gigs', gigs);
-	// console.log('podcasts', podcasts);
-	// console.log('showcases', showcases);
-	// console.log('siteSettings', siteSettings);
-
 	return (
 		<PageWrapper>
 			<NextSeo
@@ -132,9 +144,7 @@ const Page = (props: Props) => {
 				points={points}
 				setPoints={setPoints}
 			/>
-			<ContentWrapper
-				$drawingIsActive={drawingIsActive}
-			>
+			<DesktopContentWrapper $drawingIsActive={drawingIsActive}>
 				<LayoutWrapper>
 					<LayoutGrid>
 						<Header
@@ -149,23 +159,67 @@ const Page = (props: Props) => {
 							handleResetPoints={() => setHandleResetPoints(handleResetPoints + 1)}
 							handleSavePoints={() => setHandleSavePoints(handleResetPoints + 1)}
 							hint={hint}
+							videoData={videoData}
+							imageData={imageData}
 						/>
 						<ShowcasesColumn
 							data={showcases}
-							setColumnWidth={setColumnWidth}
 							columnWidth={columnWidth}
+							setColumnWidth={setColumnWidth}
+							setVideoData={setVideoData}
+							drawingIsActive={drawingIsActive}
 						/>
 						<GigsColumn
 							data={gigs}
 							columnWidth={columnWidth}
+							setVideoData={setVideoData}
+							drawingIsActive={drawingIsActive}
 						/>
 						<PodcastsColumn
 							data={podcasts}
 							columnWidth={columnWidth}
+							setImageData={setImageData}
+							drawingIsActive={drawingIsActive}
 						/>
 					</LayoutGrid>
 				</LayoutWrapper>
-			</ContentWrapper>
+			</DesktopContentWrapper>
+			<MobileContentWrapper>
+				<Header
+					instagramUrl={siteSettings.instagramUrl}
+					soundcloudUrl={siteSettings.soundcloudUrl}
+					email={siteSettings.email}
+					excerpt={siteSettings.excerpt}
+					drawingIsActive={drawingIsActive}
+					contributions={contributions}
+					lastUpdated={lastUpdated}
+					setDrawingIsActive={setDrawingIsActive}
+					handleResetPoints={() => setHandleResetPoints(handleResetPoints + 1)}
+					handleSavePoints={() => setHandleSavePoints(handleResetPoints + 1)}
+					hint={hint}
+					videoData={videoData}
+					imageData={imageData}
+				/>
+				<ShowcasesColumn
+					data={showcases}
+					columnWidth={columnWidth}
+					setColumnWidth={setColumnWidth}
+					setVideoData={setVideoData}
+					drawingIsActive={drawingIsActive}
+				/>
+				<GigsColumn
+					data={gigs}
+					columnWidth={columnWidth}
+					setVideoData={setVideoData}
+					drawingIsActive={drawingIsActive}
+				/>
+				<PodcastsColumn
+					data={podcasts}
+					columnWidth={columnWidth}
+					setImageData={setImageData}
+					drawingIsActive={drawingIsActive}
+				/>
+			</MobileContentWrapper>
 		</PageWrapper>
 	);
 };

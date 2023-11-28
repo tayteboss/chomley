@@ -12,6 +12,11 @@ export const gigsQueryString = `
 		},
 		credits[]->{
 			...
+		},
+		video {
+			asset->{
+				...
+			}
 		}
 	}
 `;
@@ -19,6 +24,11 @@ export const gigsQueryString = `
 export const podcastsQueryString = `
 	*[_type == 'podcast'] {
 		...,
+		images {
+			asset->{
+				...
+			}
+		}
 	}
 `;
 
@@ -30,6 +40,11 @@ export const showcasesQueryString = `
 		},
 		credits[]->{
 			...
+		},
+		video {
+			asset->{
+				...
+			}
 		}
 	}
 `;

@@ -208,8 +208,17 @@ export const GlobalStyles = createGlobalStyle`
 		height: 100vh;
 		overflow-y: auto;
 
+		@media ${theme.mediaBreakpoints.tabletPortrait} {
+			overflow-y: unset;
+			height: unset;
+		}
+
 		&__header {
 			min-height: 20vh;
+
+			@media ${theme.mediaBreakpoints.tabletPortrait} {
+				min-height: unset;
+			}
 		}
 	}
 

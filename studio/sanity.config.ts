@@ -60,11 +60,11 @@ export default defineConfig({
             ),
           S.divider(),
           S.listItem()
-            .title('Artist')
+            .title('Artists')
             .icon(UsersIcon)
             .child(
               S.documentList()
-                .title('Artist')
+                .title('Artists')
                 .schemaType('artist')
                 .filter('_type == "artist"')
             ),
