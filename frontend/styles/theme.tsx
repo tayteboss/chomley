@@ -8,8 +8,8 @@ export const theme = {
 		blue: '#002FA7',
 	},
 	fonts: {
-		monoReg: 'IBM Plex Mono Regular',
-		monoMed: 'IBM Plex Mono Medium',
+		monoReg: 'IBM Plex Mono Regular, monospace',
+		monoMed: 'IBM Plex Mono Medium, monospace',
 		sansText: 'IBM Plex Sans Text, sans-serif',
 	},
 	size: {

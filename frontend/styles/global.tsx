@@ -114,6 +114,7 @@ export const GlobalStyles = createGlobalStyle`
 		font-size: ${pxToRem(12)};
 		line-height: normal;
 		font-weight: 400;
+		font-family: var(--font-sans-text);
 	}
 
 	h4,
@@ -121,6 +122,7 @@ export const GlobalStyles = createGlobalStyle`
 		font-size: ${pxToRem(12)};
 		line-height: normal;
 		font-weight: 400;
+		font-family: var(--font-sans-text);
 	}
 
 	p,
