@@ -9,7 +9,7 @@ export type MediaType = {
 			};
 			placeholderImage: {
 				url: string;
-			}
+			};
 		}
 	];
 };
@@ -19,15 +19,15 @@ export type TransitionsType = {
 		opacity: number;
 		transition: {
 			duration: number;
-		}
-	}
+		};
+	};
 	visible: {
 		opacity: number;
 		transition: {
 			duration: number;
-			delay?: number
-		}
-	}
+			delay?: number;
+		};
+	};
 };
 
 export type SiteSettingsType = {
@@ -55,7 +55,7 @@ export type CreditType = {
 export type MuxVideoType = {
 	asset: {
 		playbackId: string;
-	}
+	};
 };
 
 export type ShowcaseType = {
@@ -66,13 +66,10 @@ export type ShowcaseType = {
 	location: string;
 	locationUrl: string;
 	title: string;
-	indexYear: string;
 	formattedDate: string;
-	indexYearPrefix: string;
+	images: any;
 	video?: MuxVideoType;
-	drawingIsActive: boolean;
-	setVideoData: (video: string | boolean) => void;
-}
+};
 
 export type GigType = {
 	title: string;
@@ -87,7 +84,7 @@ export type GigType = {
 	indexYearPrefix: string;
 	drawingIsActive: boolean;
 	video?: MuxVideoType;
-}
+};
 
 export type PodcastType = {
 	title: string;
@@ -95,10 +92,6 @@ export type PodcastType = {
 	excerpt: string;
 	link: string;
 	linkTitle: string;
-	indexYear: string;
 	formattedDate: string;
-	video?: MuxVideoType;
-	images: any;
-	drawingIsActive: boolean;
-	setImageData: (images: string | boolean) => void;
-}
+	image: any;
+};

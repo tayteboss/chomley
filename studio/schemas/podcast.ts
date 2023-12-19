@@ -32,6 +32,6 @@ export default {
 			title: 'Image',
 			name: 'images',
 			type: 'image',
-		}
+		},
 	]
 }

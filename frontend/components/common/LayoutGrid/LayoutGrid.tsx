@@ -9,7 +9,7 @@ type Props = {
 const Grid = styled.div`
 	display: grid;
 	grid-template-columns: repeat(12, minmax(0, 1fr));
-	grid-column-gap: ${pxToRem(16)};
+	grid-column-gap: ${pxToRem(8)};
 	align-items: start;
 
 	@media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
@@ -17,6 +17,8 @@ const Grid = styled.div`
 	}
 `;
 
-const LayoutGrid = (props: Props) => <Grid className="layout-grid">{props.children}</Grid>;
+const LayoutGrid = (props: Props) => (
+	<Grid className="layout-grid">{props.children}</Grid>
+);
 
 export default LayoutGrid;

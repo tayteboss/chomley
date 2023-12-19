@@ -104,14 +104,14 @@ export const GlobalStyles = createGlobalStyle`
 
 	h2,
 	.type-h2 {
-		font-size: ${pxToRem(12)};
+		font-size: ${pxToRem(10)};
 		line-height: normal;
 		font-weight: 400;
 	}
 
 	h3,
 	.type-h3 {
-		font-size: ${pxToRem(12)};
+		font-size: ${pxToRem(10)};
 		line-height: normal;
 		font-weight: 400;
 		font-family: var(--font-sans-text);
@@ -119,7 +119,7 @@ export const GlobalStyles = createGlobalStyle`
 
 	h4,
 	.type-h4 {
-		font-size: ${pxToRem(12)};
+		font-size: ${pxToRem(10)};
 		line-height: normal;
 		font-weight: 400;
 		font-family: var(--font-sans-text);
@@ -130,7 +130,7 @@ export const GlobalStyles = createGlobalStyle`
 	a,
 	button,
 	div {
-		font-size: ${pxToRem(12)};
+		font-size: ${pxToRem(10)};
 		line-height: normal;
 	}
 

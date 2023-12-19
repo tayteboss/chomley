@@ -13,6 +13,11 @@ export const gigsQueryString = `
 		credits[]->{
 			...
 		},
+		images[] {
+			asset->{
+				...
+			}
+		},
 		video {
 			asset->{
 				...
@@ -42,6 +47,11 @@ export const showcasesQueryString = `
 			...
 		},
 		video {
+			asset->{
+				...
+			}
+		},
+		images[] {
 			asset->{
 				...
 			}

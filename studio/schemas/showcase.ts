@@ -60,9 +60,19 @@ export default {
 			]
 		},
 		{
+			title: 'Images',
+			name: 'images',
+			type: 'array',
+			of: [
+				{
+					type: 'image',
+				}
+			]
+		},
+		{
 			title: 'Video',
 			name: 'video',
 			type: 'mux.video',
-		}
+		},
 	]
 }

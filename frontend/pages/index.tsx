@@ -1,49 +1,24 @@
 import styled from 'styled-components';
 import { NextSeo } from 'next-seo';
-import DrawingFeature from '../components/blocks/DrawingFeature';
-import { incrementContributions, readAllPoints, readContributions, readDate, updateNewPoints } from '../firebase/firebasePoints';
 import client from '../client';
-import { gigsQueryString, podcastsQueryString, showcasesQueryString, siteSettingsQueryString } from '../lib/sanityQueries';
-import { MuxVideoType, SiteSettingsType } from '../shared/types/types';
-import LayoutWrapper from '../components/common/LayoutWrapper';
-import LayoutGrid from '../components/common/LayoutGrid';
+import {
+	gigsQueryString,
+	podcastsQueryString,
+	showcasesQueryString,
+	siteSettingsQueryString
+} from '../lib/sanityQueries';
+import { SiteSettingsType } from '../shared/types/types';
 import Header from '../components/layout/Header';
-import GigsColumn from '../components/blocks/GigsColumn';
-import ShowcasesColumn from '../components/blocks/ShowcasesColumn';
-import PodcastsColumn from '../components/blocks/PodcastsColumn';
-import { useState, useEffect } from 'react';
 import orderIndex from '../utils/orderIndex';
-
-type Point = {
-	x: number;
-	y: number;
-	id: string;
-};
+import Showcases from '../components/blocks/Showcases';
 
 const PageWrapper = styled.div`
 	background: var(--colour-grey);
 `;
 
-const DesktopContentWrapper = styled.div<{ $drawingIsActive: boolean }>`
+const DesktopContentWrapper = styled.div`
 	position: relative;
 	z-index: 10;
-	pointer-events: ${(props) => props.$drawingIsActive ? 'none' : 'auto'};
-
-	@media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
-		display: none;
-	}
-`;
-
-const MobileContentWrapper = styled.div`
-	display: none;
-
-	@media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
-		display: flex;
-		flex-direction: column;
-		align-items: flex-start;
-		position: relative;
-		z-index: 10;
-	}
 `;
 
 type Props = {
@@ -51,86 +26,13 @@ type Props = {
 	gigs: any;
 	podcasts: any;
 	showcases: any;
+	columnData: any;
 };
 
 const Page = (props: Props) => {
-	const {
-		siteSettings,
-		gigs,
-		podcasts,
-		showcases
-	} = props;
+	const { siteSettings, gigs, podcasts, showcases, columnData } = props;
 
-	const [points, setPoints] = useState<Point[]>([]);
-	const [contributions, setContributions] = useState(0);
-	const [lastUpdated, setLastUpdated] = useState<string | null>(null);
-	const [columnWidth, setColumnWidth] = useState(0);
-	const [drawingIsActive, setDrawingIsActive] = useState(false);
-	const [handleResetPoints, setHandleResetPoints] = useState(0);
-	const [handleSavePoints, setHandleSavePoints] = useState(0);
-	const [hint, setHint] = useState<boolean | string>(false);
-	const [videoData, setVideoData] = useState<string | boolean>(false);
-	const [imageData, setImageData] = useState<string | boolean>(false);
-
-	useEffect(() => {
-		setDrawingIsActive(false);
-
-		const fetchData = async () => {
-			if (handleSavePoints >= 1) {
-				const contributions = await readContributions();
-				const date = await readDate();
-	
-				setContributions(contributions);
-				setLastUpdated(date);
-			}
-		};
-
-		const updateData = async () => {
-			if (handleSavePoints >= 1) {
-				setHint('Saving...');
-				await updateNewPoints(points);
-				await incrementContributions();
-
-				setHint('Saved');
-
-				const timer = setTimeout(() => {
-					setHint(false);
-				}, 3000);
-
-				return () => clearTimeout(timer);
-			}
-		};
-
-		const fetchDataAndUpdate = async () => {
-			await updateData();
-			await fetchData();
-		};
-
-		fetchDataAndUpdate();
-	}, [handleSavePoints]);
-
-	useEffect(() => {
-		const fetchData = async () => {
-			const points = await readAllPoints();
-			const contributions = await readContributions();
-			const date = await readDate();
-
-			setPoints(points);
-			setContributions(contributions);
-			setLastUpdated(date);
-		};
-		fetchData();
-	}, []);
-
-	useEffect(() => {
-		const html = document.querySelector('html')!;
-
-		if (drawingIsActive) {
-			html.classList.add('is-drawing');
-		} else {
-			html.classList.remove('is-drawing');
-		}
-	}, [drawingIsActive]);
+	console.log('columnData', columnData);
 
 	return (
 		<PageWrapper>
@@ -138,93 +40,20 @@ const Page = (props: Props) => {
 				title={siteSettings.seoTitle || ''}
 				description={siteSettings.seoDescription || ''}
 			/>
-			<DrawingFeature
-				drawingIsActive={drawingIsActive}
-				handleResetPoints={handleResetPoints}
-				points={points}
-				setPoints={setPoints}
-			/>
-			<DesktopContentWrapper $drawingIsActive={drawingIsActive}>
-				<LayoutWrapper>
-					<LayoutGrid>
-						<Header
-							instagramUrl={siteSettings.instagramUrl}
-							soundcloudUrl={siteSettings.soundcloudUrl}
-							email={siteSettings.email}
-							excerpt={siteSettings.excerpt}
-							drawingIsActive={drawingIsActive}
-							contributions={contributions}
-							lastUpdated={lastUpdated}
-							setDrawingIsActive={setDrawingIsActive}
-							handleResetPoints={() => setHandleResetPoints(handleResetPoints + 1)}
-							handleSavePoints={() => setHandleSavePoints(handleResetPoints + 1)}
-							hint={hint}
-							videoData={videoData}
-							imageData={imageData}
-						/>
-						<ShowcasesColumn
-							data={showcases}
-							columnWidth={columnWidth}
-							setColumnWidth={setColumnWidth}
-							setVideoData={setVideoData}
-							drawingIsActive={drawingIsActive}
-						/>
-						<GigsColumn
-							data={gigs}
-							columnWidth={columnWidth}
-							setVideoData={setVideoData}
-							drawingIsActive={drawingIsActive}
-						/>
-						<PodcastsColumn
-							data={podcasts}
-							columnWidth={columnWidth}
-							setImageData={setImageData}
-							drawingIsActive={drawingIsActive}
-						/>
-					</LayoutGrid>
-				</LayoutWrapper>
-			</DesktopContentWrapper>
-			<MobileContentWrapper>
+			<DesktopContentWrapper>
 				<Header
 					instagramUrl={siteSettings.instagramUrl}
 					soundcloudUrl={siteSettings.soundcloudUrl}
 					email={siteSettings.email}
 					excerpt={siteSettings.excerpt}
-					drawingIsActive={drawingIsActive}
-					contributions={contributions}
-					lastUpdated={lastUpdated}
-					setDrawingIsActive={setDrawingIsActive}
-					handleResetPoints={() => setHandleResetPoints(handleResetPoints + 1)}
-					handleSavePoints={() => setHandleSavePoints(handleResetPoints + 1)}
-					hint={hint}
-					videoData={videoData}
-					imageData={imageData}
 				/>
-				<ShowcasesColumn
-					data={showcases}
-					columnWidth={columnWidth}
-					setColumnWidth={setColumnWidth}
-					setVideoData={setVideoData}
-					drawingIsActive={drawingIsActive}
-				/>
-				<GigsColumn
-					data={gigs}
-					columnWidth={columnWidth}
-					setVideoData={setVideoData}
-					drawingIsActive={drawingIsActive}
-				/>
-				<PodcastsColumn
-					data={podcasts}
-					columnWidth={columnWidth}
-					setImageData={setImageData}
-					drawingIsActive={drawingIsActive}
-				/>
-			</MobileContentWrapper>
+				<Showcases data={columnData} />
+			</DesktopContentWrapper>
 		</PageWrapper>
 	);
 };
 
-export async function getStaticProps() {
+export const getStaticProps: GetStaticProps = async () => {
 	const siteSettings = await client.fetch(siteSettingsQueryString);
 	let showcases = await client.fetch(showcasesQueryString);
 	let gigs = await client.fetch(gigsQueryString);
@@ -234,14 +63,53 @@ export async function getStaticProps() {
 	gigs = orderIndex(gigs);
 	podcasts = orderIndex(podcasts);
 
+	interface DataItem {
+		id: string;
+		// other properties of your data items
+	}
+
+	const allData: DataItem[] = [
+		...showcases.map((item: any) => ({ ...item, type: 'showcase' })),
+		...gigs.map((item: any) => ({ ...item, type: 'gig' })),
+		...podcasts.map((item: any) => ({ ...item, type: 'podcast' }))
+	];
+
+	const shuffle = (array: DataItem[]): DataItem[] => {
+		let currentIndex = array.length,
+			randomIndex: number;
+
+		// While there remain elements to shuffle...
+		while (currentIndex !== 0) {
+			// Pick a remaining element...
+			randomIndex = Math.floor(Math.random() * currentIndex);
+			currentIndex--;
+
+			// And swap it with the current element.
+			[array[currentIndex], array[randomIndex]] = [
+				array[randomIndex],
+				array[currentIndex]
+			];
+		}
+
+		return array;
+	};
+
+	const shuffledData = shuffle([...allData]);
+
+	const columnData: DataItem[][] = Array.from({ length: 6 }, (_, i) => [
+		...shuffledData.slice(i),
+		...shuffledData.slice(0, i)
+	]);
+
 	return {
 		props: {
 			siteSettings,
 			showcases,
 			gigs,
-			podcasts
-		},
+			podcasts,
+			columnData
+		}
 	};
-}
+};
 
 export default Page;

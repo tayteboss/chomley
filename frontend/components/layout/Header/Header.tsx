@@ -1,118 +1,68 @@
 import styled from 'styled-components';
-import DrawingControls from '../../elements/DrawingControls';
-import About from '../../elements/About';
-import Footer from '../Footer';
 import pxToRem from '../../../utils/pxToRem';
-import Stats from '../../elements/Stats';
-import VideoPlayer from '../../elements/VideoPlayer';
-import ImageThumbnail from '../../elements/ImageThumbnail';
+import LayoutWrapper from '../../common/LayoutWrapper';
+import LayoutGrid from '../../common/LayoutGrid';
+import Link from 'next/link';
 
 type Props = {
 	instagramUrl: string;
 	soundcloudUrl: string;
 	email: string;
 	excerpt: string;
-	drawingIsActive: boolean;
-	contributions: number;
-	lastUpdated: string | null;
-	hint: boolean | string;
-	videoData: string | boolean;
-	imageData: string | boolean;
-	setDrawingIsActive: (drawingIsActive: boolean) => void;
-	handleResetPoints: () => void;
-	handleSavePoints: () => void;
 };
 
 const HeaderWrapper = styled.header`
-	grid-column: span 3;
-	justify-content: space-between;
-	padding: ${pxToRem(16)} 0;
-	display: flex;
-	flex-direction: column;
-	align-items: flex-start;
-	height: 100vh;
-	overflow-y: auto;
-	position: relative;
-
-	@media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
-		height: unset;
-		padding: 0;
-		border-bottom: 1px solid var(--colour-black);
-		overflow-y: unset;
-	}
-`;
-
-const ColumnHeader = styled.div`
-	min-height: 30vh;
-
-	@media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
-		position: sticky;
-		top: 0;
-		left: unset;
-		min-height: unset;
-		padding: ${pxToRem(16)};
-		border-bottom: 1px solid var(--colour-black);
-		width: 100%;
-		z-index: 10;
-		background: var(--colour-grey);
-	}
+	padding: ${pxToRem(8)} 0;
+	background: var(--colour-grey);
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	z-index: 10;
 `;
 
 const Logo = styled.div`
-	margin-bottom: ${pxToRem(16)};
+	grid-column: 1 / 3;
+`;
 
-	@media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
-		margin-bottom: 0;
-	}
+const Excerpt = styled.p`
+	grid-column: 3 / 8;
+`;
+
+const Email = styled.a`
+	grid-column: 9 / 11;
+`;
+
+const SocialLinks = styled.div`
+	grid-column: 11 / -1;
+	display: flex;
+`;
+
+const LinkTag = styled.a``;
+
+const Span = styled.span`
+	white-space: pre;
 `;
 
 const Header = (props: Props) => {
-	const {
-		instagramUrl,
-		soundcloudUrl,
-		email,
-		excerpt,
-		drawingIsActive,
-		contributions,
-		lastUpdated,
-		hint,
-		videoData,
-		imageData,
-		handleResetPoints,
-		handleSavePoints,
-		setDrawingIsActive
-	} = props;
+	const { instagramUrl, soundcloudUrl, email, excerpt } = props;
 
 	return (
 		<HeaderWrapper className="header">
-			<ColumnHeader>
-				<Logo>chomley</Logo>
-				<DrawingControls
-					drawingIsActive={drawingIsActive}
-					hint={hint}
-					setDrawingIsActive={setDrawingIsActive}
-					handleResetPoints={handleResetPoints}
-					handleSavePoints={handleSavePoints}
-				/>
-				<Stats
-					contributions={contributions}
-					lastUpdated={lastUpdated}
-				/>
-			</ColumnHeader>
-			<About
-				data={excerpt}
-				contributions={contributions}
-				lastUpdated={lastUpdated}
-			/>
-			<Footer
-				instagramUrl={instagramUrl}
-				soundcloudUrl={soundcloudUrl}
-				email={email}
-			/>
-			<VideoPlayer data={videoData} />
-			<ImageThumbnail data={imageData} />
+			<LayoutWrapper>
+				<LayoutGrid>
+					<Logo>chomley</Logo>
+					<Excerpt>{excerpt || ''}</Excerpt>
+					<Email href={`mailto:${email}`}>{email || ''}</Email>
+					<SocialLinks>
+						<LinkTag href={instagramUrl}>Instagram</LinkTag>
+						<Span>, </Span>
+						<LinkTag href={soundcloudUrl}>Soundcloud</LinkTag>
+					</SocialLinks>
+				</LayoutGrid>
+			</LayoutWrapper>
 		</HeaderWrapper>
-	)
+	);
 };
 
 export default Header;

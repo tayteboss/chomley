@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 import { PodcastType } from '../../../shared/types/types';
 import pxToRem from '../../../utils/pxToRem';
+import { useState } from 'react';
 
-const PodcastCardWrapper = styled.div<{ $drawingIsActive: boolean }>`
+const PodcastCardWrapper = styled.div`
 	margin-bottom: ${pxToRem(24)};
-	pointer-events: ${(props) => props.$drawingIsActive ? 'none' : 'auto'};
 `;
 
 const Index = styled.h4`
@@ -13,9 +13,8 @@ const Index = styled.h4`
 	font-family: var(--font-sans-text);
 `;
 
-const Title = styled.h3`
+const Title = styled.p`
 	margin-bottom: ${pxToRem(8)};
-	font-family: var(--font-mono-med);
 `;
 
 const Excerpt = styled.p`
@@ -28,43 +27,47 @@ const Date = styled.p`
 
 const Link = styled.a``;
 
+const ContentWrapper = styled.div<{ $isActive: boolean }>`
+	opacity: ${(props) => (props.$isActive ? 1 : 0)};
+`;
+
 const PodcastCard = (props: PodcastType) => {
-	const {
-		title,
-		date,
-		formattedDate,
-		excerpt,
-		link,
-		linkTitle,
-		indexYear,
-		drawingIsActive,
-		setImageData,
-		images
-	} = props;
+	const { title, formattedDate, excerpt, link, linkTitle } = props;
+
+	const [isHovered, setIsHovered] = useState(false);
+	const [hoverType, setHoverType] = useState('show');
+
+	const randomSetHoverType = () => {
+		if (hoverType === 'none') {
+			setHoverType('show');
+		} else {
+			setHoverType('none');
+		}
+	};
+
+	const handleHover = () => {
+		setIsHovered(true);
+	};
+
+	const handleBlur = () => {
+		randomSetHoverType();
+	};
 
 	return (
 		<PodcastCardWrapper
-			onMouseOver={() => setImageData(images?.asset.url || false)}
-			onMouseOut={() => setImageData(false)}
-			$drawingIsActive={drawingIsActive}
+			onMouseEnter={() => handleHover()}
+			onMouseLeave={() => handleBlur()}
 		>
-			{indexYear && (
-				<Index>P{indexYear}</Index>
-			)}
-			{title && (
-				<Title>{title}</Title>
-			)}
-			{excerpt && (
-				<Excerpt>{excerpt}</Excerpt>
-			)}
-			{formattedDate && (
-				<Date>{formattedDate}</Date>
-			)}
-			{(link && linkTitle) && (
-				<Link href={link} target="_blank">
-					{linkTitle}
-				</Link>
-			)}
+			{title && <Title>{title}</Title>}
+			{formattedDate && <Date>{formattedDate}</Date>}
+			<ContentWrapper $isActive={isHovered && hoverType === 'show'}>
+				{excerpt && <Excerpt>{excerpt}</Excerpt>}
+				{link && linkTitle && (
+					<Link href={link} target="_blank">
+						{linkTitle}
+					</Link>
+				)}
+			</ContentWrapper>
 		</PodcastCardWrapper>
 	);
 };
