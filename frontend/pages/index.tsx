@@ -51,7 +51,7 @@ const Page = (props: Props) => {
 	);
 };
 
-export const getStaticProps: GetStaticProps = async () => {
+export async function getStaticProps() {
 	const siteSettings = await client.fetch(siteSettingsQueryString);
 	let showcases = await client.fetch(showcasesQueryString);
 	let gigs = await client.fetch(gigsQueryString);
@@ -92,12 +92,11 @@ export const getStaticProps: GetStaticProps = async () => {
 		return array;
 	};
 
-	const shuffledData = shuffle([...allData]);
-
-	const columnData: DataItem[][] = Array.from({ length: 6 }, (_, i) => [
-		...shuffledData.slice(i),
-		...shuffledData.slice(0, i)
-	]);
+	const numberOfColumns = 6;
+	const columnData: DataItem[][] = Array.from(
+		{ length: numberOfColumns },
+		() => shuffle([...allData])
+	);
 
 	return {
 		props: {
@@ -108,6 +107,6 @@ export const getStaticProps: GetStaticProps = async () => {
 			columnData
 		}
 	};
-};
+}
 
 export default Page;
