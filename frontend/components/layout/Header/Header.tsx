@@ -75,9 +75,13 @@ const Header = (props: Props) => {
 					<Excerpt>{excerpt || ''}</Excerpt>
 					<Email href={`mailto:${email}`}>{email || ''}</Email>
 					<SocialLinks>
-						<LinkTag href={instagramUrl}>Instagram</LinkTag>
+						<LinkTag href={instagramUrl} target="_blank">
+							Instagram
+						</LinkTag>
 						<Span>, </Span>
-						<LinkTag href={soundcloudUrl}>Soundcloud</LinkTag>
+						<LinkTag href={soundcloudUrl} target="_blank">
+							Soundcloud
+						</LinkTag>
 					</SocialLinks>
 				</LayoutGrid>
 			</LayoutWrapper>
