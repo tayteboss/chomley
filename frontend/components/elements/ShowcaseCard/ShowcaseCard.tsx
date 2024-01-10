@@ -6,6 +6,7 @@ import pxToRem from '../../../utils/pxToRem';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import MuxPlayer from '@mux/mux-player-react';
+import useViewportWidth from '../../../hooks/useViewportWidth';
 
 const ShowcaseCardWrapper = styled.div`
 	margin-bottom: ${pxToRem(24)};
@@ -13,6 +14,10 @@ const ShowcaseCardWrapper = styled.div`
 	display: flex;
 	flex-direction: column;
 	gap: ${pxToRem(8)};
+
+	@media ${(props) => props.theme.mediaBreakpoints.mobile} {
+		margin-bottom: ${pxToRem(32)};
+	}
 `;
 
 const Title = styled.p``;
@@ -23,13 +28,18 @@ const Date = styled.p``;
 
 const Link = styled.a`
 	display: inline-block;
+	margin-bottom: ${pxToRem(8)};
+	cursor: pointer;
 `;
 
-const Location = styled.p``;
+const Location = styled.p`
+	margin-bottom: ${pxToRem(8)};
+`;
 
 const ContentWrapper = styled.div<{ $isActive: boolean }>`
 	opacity: ${(props) => (props.$isActive ? 1 : 0)};
 	pointer-events: all;
+	cursor: default;
 `;
 
 const ImagesWrapper = styled.div<{ $isActive: boolean }>`
@@ -84,7 +94,10 @@ const ShowcaseCard = (props: ShowcaseType) => {
 		video
 	} = props;
 
-	const [isHovered, setIsHovered] = useState(false);
+	const viewport = useViewportWidth();
+	const isMobile = viewport === 'mobile';
+
+	const [isHovered, setIsHovered] = useState(isMobile ? true : false);
 	const [hoverType, setHoverType] = useState('content');
 	const [imageIndex, setImageIndex] = useState(0);
 
@@ -125,6 +138,12 @@ const ShowcaseCard = (props: ShowcaseType) => {
 		randomSetHoverType();
 		randomSetImageIndex();
 	}, []);
+
+	useEffect(() => {
+		if (viewport === 'mobile') {
+			setIsHovered(true);
+		}
+	}, [viewport]);
 
 	return (
 		<ShowcaseCardWrapper

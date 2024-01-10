@@ -1,10 +1,15 @@
 import styled from 'styled-components';
 import { PodcastType } from '../../../shared/types/types';
 import pxToRem from '../../../utils/pxToRem';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import useViewportWidth from '../../../hooks/useViewportWidth';
 
 const PodcastCardWrapper = styled.div`
 	margin-bottom: ${pxToRem(24)};
+
+	@media ${(props) => props.theme.mediaBreakpoints.mobile} {
+		margin-bottom: ${pxToRem(32)};
+	}
 `;
 
 const Index = styled.h4`
@@ -25,16 +30,22 @@ const Date = styled.p`
 	margin-bottom: ${pxToRem(8)};
 `;
 
-const Link = styled.a``;
+const Link = styled.a`
+	cursor: pointer;
+`;
 
 const ContentWrapper = styled.div<{ $isActive: boolean }>`
 	opacity: ${(props) => (props.$isActive ? 1 : 0)};
+	cursor: default;
 `;
 
 const PodcastCard = (props: PodcastType) => {
 	const { title, formattedDate, excerpt, link, linkTitle } = props;
 
-	const [isHovered, setIsHovered] = useState(false);
+	const viewport = useViewportWidth();
+	const isMobile = viewport === 'mobile';
+
+	const [isHovered, setIsHovered] = useState(isMobile ? true : false);
 	const [hoverType, setHoverType] = useState('show');
 
 	const randomSetHoverType = () => {
@@ -52,6 +63,12 @@ const PodcastCard = (props: PodcastType) => {
 	const handleBlur = () => {
 		randomSetHoverType();
 	};
+
+	useEffect(() => {
+		if (viewport === 'mobile') {
+			setIsHovered(true);
+		}
+	}, [viewport]);
 
 	return (
 		<PodcastCardWrapper

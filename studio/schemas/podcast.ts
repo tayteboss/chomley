@@ -28,10 +28,5 @@ export default {
 			name: 'link',
 			type: 'url'
 		},
-		{
-			title: 'Image',
-			name: 'images',
-			type: 'image',
-		},
 	]
 }

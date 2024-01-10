@@ -32,8 +32,6 @@ type Props = {
 const Page = (props: Props) => {
 	const { siteSettings, gigs, podcasts, showcases, columnData } = props;
 
-	console.log('columnData', columnData);
-
 	return (
 		<PageWrapper>
 			<NextSeo

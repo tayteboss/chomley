@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import ShowcaseCard from '../../elements/ShowcaseCard';
 import PodcastCard from '../../elements/PodcastCard';
+import pxToRem from '../../../utils/pxToRem';
 
 type Props = {
 	data: any;
@@ -8,6 +9,10 @@ type Props = {
 
 const ShowcaseColumnWrapper = styled.div`
 	grid-column: span 2;
+
+	@media ${(props) => props.theme.mediaBreakpoints.mobile} {
+		grid-column: 1 / -1;
+	}
 `;
 
 const ShowcaseColumn = (props: Props) => {

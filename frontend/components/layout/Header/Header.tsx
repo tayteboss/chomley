@@ -23,19 +23,39 @@ const HeaderWrapper = styled.header`
 
 const Logo = styled.div`
 	grid-column: 1 / 3;
+
+	@media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
+		grid-column: 1 / -1;
+		margin-bottom: ${pxToRem(8)};
+	}
 `;
 
 const Excerpt = styled.p`
 	grid-column: 3 / 8;
+
+	@media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
+		grid-column: 1 / -1;
+		margin-bottom: ${pxToRem(8)};
+	}
 `;
 
 const Email = styled.a`
 	grid-column: 9 / 11;
+
+	@media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
+		grid-column: 1 / -1;
+		margin-bottom: ${pxToRem(8)};
+	}
 `;
 
 const SocialLinks = styled.div`
 	grid-column: 11 / -1;
 	display: flex;
+
+	@media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
+		grid-column: 1 / -1;
+		margin-bottom: ${pxToRem(8)};
+	}
 `;
 
 const LinkTag = styled.a``;

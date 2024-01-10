@@ -69,10 +69,5 @@ export default {
 				}
 			]
 		},
-		{
-			title: 'Video',
-			name: 'video',
-			type: 'mux.video',
-		},
 	]
 }
