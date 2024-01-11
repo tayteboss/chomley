@@ -28,6 +28,10 @@ const Logo = styled.div`
 		grid-column: 1 / -1;
 		margin-bottom: ${pxToRem(8)};
 	}
+
+	@media ${(props) => props.theme.mediaBreakpoints.mobile} {
+		margin-bottom: ${pxToRem(4)};
+	}
 `;
 
 const Excerpt = styled.p`
@@ -37,6 +41,10 @@ const Excerpt = styled.p`
 		grid-column: 1 / -1;
 		margin-bottom: ${pxToRem(8)};
 	}
+
+	@media ${(props) => props.theme.mediaBreakpoints.mobile} {
+		margin-bottom: ${pxToRem(4)};
+	}
 `;
 
 const Email = styled.a`
@@ -45,6 +53,10 @@ const Email = styled.a`
 	@media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
 		grid-column: 1 / -1;
 		margin-bottom: ${pxToRem(8)};
+	}
+
+	@media ${(props) => props.theme.mediaBreakpoints.mobile} {
+		margin-bottom: ${pxToRem(4)};
 	}
 `;
 
@@ -56,12 +68,24 @@ const SocialLinks = styled.div`
 		grid-column: 1 / -1;
 		margin-bottom: ${pxToRem(8)};
 	}
+
+	@media ${(props) => props.theme.mediaBreakpoints.mobile} {
+		margin-bottom: ${pxToRem(4)};
+	}
 `;
 
 const LinkTag = styled.a``;
 
 const Span = styled.span`
 	white-space: pre;
+`;
+
+const LinksWrapper = styled.div`
+	@media ${(props) => props.theme.mediaBreakpoints.mobile} {
+		display: flex;
+		justify-content: space-between;
+		grid-column: 1 / -1;
+	}
 `;
 
 const Header = (props: Props) => {
@@ -73,16 +97,18 @@ const Header = (props: Props) => {
 				<LayoutGrid>
 					<Logo>chomley</Logo>
 					<Excerpt>{excerpt || ''}</Excerpt>
-					<Email href={`mailto:${email}`}>{email || ''}</Email>
-					<SocialLinks>
-						<LinkTag href={instagramUrl} target="_blank">
-							Instagram
-						</LinkTag>
-						<Span>, </Span>
-						<LinkTag href={soundcloudUrl} target="_blank">
-							Soundcloud
-						</LinkTag>
-					</SocialLinks>
+					<LinksWrapper>
+						<Email href={`mailto:${email}`}>{email || ''}</Email>
+						<SocialLinks>
+							<LinkTag href={instagramUrl} target="_blank">
+								Instagram
+							</LinkTag>
+							<Span>, </Span>
+							<LinkTag href={soundcloudUrl} target="_blank">
+								Soundcloud
+							</LinkTag>
+						</SocialLinks>
+					</LinksWrapper>
 				</LayoutGrid>
 			</LayoutWrapper>
 		</HeaderWrapper>

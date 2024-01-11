@@ -6,12 +6,9 @@ const PageWrapper = styled.div``;
 const Page = () => {
 	return (
 		<PageWrapper>
-			<NextSeo
-				title="Boiler"
-				description="Boiler Plate"
-			/>
+			<NextSeo title="404" />
 		</PageWrapper>
-	)
-}
+	);
+};
 
 export default Page;
