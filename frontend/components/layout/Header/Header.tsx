@@ -101,11 +101,11 @@ const Header = (props: Props) => {
 						<Email href={`mailto:${email}`}>{email || ''}</Email>
 						<SocialLinks>
 							<LinkTag href={instagramUrl} target="_blank">
-								Instagram
+								instagram
 							</LinkTag>
 							<Span>, </Span>
 							<LinkTag href={soundcloudUrl} target="_blank">
-								Soundcloud
+								soundcloud
 							</LinkTag>
 						</SocialLinks>
 					</LinksWrapper>
