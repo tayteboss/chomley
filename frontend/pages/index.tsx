@@ -57,45 +57,19 @@ export async function getStaticProps() {
 	let gigs = await client.fetch(gigsQueryString);
 	let podcasts = await client.fetch(podcastsQueryString);
 
-	showcases = orderIndex(showcases);
-	gigs = orderIndex(gigs);
-	podcasts = orderIndex(podcasts);
+	let data = [showcases, gigs, podcasts];
 
-	interface DataItem {
-		id: string;
-		// other properties of your data items
-	}
+	data = orderIndex(data);
 
-	const allData: DataItem[] = [
-		...showcases.map((item: any) => ({ ...item, type: 'showcase' })),
-		...gigs.map((item: any) => ({ ...item, type: 'gig' })),
-		...podcasts.map((item: any) => ({ ...item, type: 'podcast' }))
-	];
+	let columnData = data;
 
-	const shuffle = (array: DataItem[]): DataItem[] => {
-		let currentIndex = array.length,
-			randomIndex: number;
-
-		// While there remain elements to shuffle...
-		while (currentIndex !== 0) {
-			// Pick a remaining element...
-			randomIndex = Math.floor(Math.random() * currentIndex);
-			currentIndex--;
-
-			// And swap it with the current element.
-			[array[currentIndex], array[randomIndex]] = [
-				array[randomIndex],
-				array[currentIndex]
-			];
-		}
-
-		return array;
-	};
-
-	const numberOfColumns = 6;
-	const columnData: DataItem[][] = Array.from(
-		{ length: numberOfColumns },
-		() => shuffle([...allData])
+	// evenly push the data of columnData into 6 arrays to form 6 columns
+	columnData = columnData.reduce(
+		(acc: any, curr: any, i: number) => {
+			acc[i % 6].push(curr);
+			return acc;
+		},
+		[[], [], [], [], [], []]
 	);
 
 	return {

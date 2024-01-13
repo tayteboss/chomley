@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import MuxPlayer from '@mux/mux-player-react';
 import useViewportWidth from '../../../hooks/useViewportWidth';
+import { format } from 'date-fns';
 
 const ShowcaseCardWrapper = styled.div`
 	margin-bottom: ${pxToRem(24)};
@@ -84,38 +85,51 @@ const VideoPlayerWrapper = styled.div<{ $isActive: boolean }>`
 const ShowcaseCard = (props: ShowcaseType) => {
 	const {
 		title,
-		formattedDate,
 		artists,
 		credits,
 		excerpt,
 		location,
 		locationUrl,
 		images,
-		video
+		video,
+		date
 	} = props;
 
 	const viewport = useViewportWidth();
 	const isMobile = viewport === 'mobile';
+	const year = date.slice(0, 4);
 
 	const [isHovered, setIsHovered] = useState(isMobile ? true : false);
 	const [hoverType, setHoverType] = useState('content');
 	const [imageIndex, setImageIndex] = useState(0);
+	const [count, setCount] = useState(0);
 
 	const hasImages = images && images.length;
 	const hasVideo = video && video?.asset?.playbackId;
 
-	const randomSetHoverType = () => {
-		const random = Math.floor(Math.random() * 2);
-		if (random === 0) {
-			setHoverType('content');
-		} else if (random === 1) {
-			if (hasImages) {
+	const setContentType = () => {
+		if (hasVideo && hasImages) {
+			if (count === 0) {
+				setHoverType('content');
+			} else if (count === 1) {
 				setHoverType('image');
 			} else {
+				setHoverType('video');
+			}
+		} else if (hasVideo && !hasImages) {
+			if (count === 0) {
 				setHoverType('content');
+			} else {
+				setHoverType('video');
+			}
+		} else if (!hasVideo && hasImages) {
+			if (count === 0) {
+				setHoverType('content');
+			} else {
+				setHoverType('image');
 			}
 		} else {
-			setHoverType('none');
+			setHoverType('content');
 		}
 	};
 
@@ -130,14 +144,14 @@ const ShowcaseCard = (props: ShowcaseType) => {
 	};
 
 	const handleBlur = () => {
-		randomSetHoverType();
+		if (count > 1) {
+			setCount(0);
+		} else {
+			setCount(count + 1);
+		}
 		randomSetImageIndex();
+		setContentType();
 	};
-
-	useEffect(() => {
-		randomSetHoverType();
-		randomSetImageIndex();
-	}, []);
 
 	useEffect(() => {
 		if (viewport === 'mobile') {
@@ -151,8 +165,6 @@ const ShowcaseCard = (props: ShowcaseType) => {
 			onMouseLeave={() => handleBlur()}
 		>
 			{title && <Title>{title}</Title>}
-			{excerpt && <Excerpt>{excerpt}</Excerpt>}
-			{formattedDate && <Date>{formattedDate}</Date>}
 			<VideoPlayerWrapper $isActive={isHovered && hoverType === 'video'}>
 				{video?.asset?.playbackId && (
 					<MuxPlayer
@@ -171,16 +183,20 @@ const ShowcaseCard = (props: ShowcaseType) => {
 				{hasImages && (
 					<ImageWrapper>
 						<ImageInner>
-							<Image
-								src={images[imageIndex].asset.url}
-								layout="fill"
-								objectFit="cover"
-							/>
+							{images[imageIndex]?.asset?.url && (
+								<Image
+									src={images[imageIndex].asset.url}
+									layout="fill"
+									objectFit="cover"
+								/>
+							)}
 						</ImageInner>
 					</ImageWrapper>
 				)}
 			</ImagesWrapper>
 			<ContentWrapper $isActive={isHovered && hoverType === 'content'}>
+				{excerpt && <Excerpt>{excerpt}</Excerpt>}
+				{year && <Date>{year}</Date>}
 				{location && (
 					<>
 						{locationUrl ? (

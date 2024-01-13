@@ -24,9 +24,9 @@ const ShowcaseColumn = (props: Props) => {
 		<ShowcaseColumnWrapper>
 			{hasData &&
 				data.map((item: any, i: number) => {
-					const isShowcase = item.type === 'showcase';
-					const isGig = item.type === 'gig';
-					const isPodcast = item.type === 'podcast';
+					const isShowcase = item._type === 'showcase';
+					const isGig = item._type === 'gig';
+					const isPodcast = item._type === 'podcast';
 
 					return (
 						<>

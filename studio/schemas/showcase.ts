@@ -69,5 +69,11 @@ export default {
 				}
 			]
 		},
+		// add mux video
+		{
+			title: 'Video',
+			name: 'video',
+			type: 'mux.video'
+		},
 	]
 }

@@ -35,7 +35,7 @@ const Logo = styled.div`
 `;
 
 const Excerpt = styled.p`
-	grid-column: 3 / 8;
+	grid-column: 3 / 7;
 
 	@media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
 		grid-column: 1 / -1;
@@ -81,9 +81,11 @@ const Span = styled.span`
 `;
 
 const LinksWrapper = styled.div`
+	display: flex;
+	justify-content: space-between;
+	grid-column: 9 / -1;
+
 	@media ${(props) => props.theme.mediaBreakpoints.mobile} {
-		display: flex;
-		justify-content: space-between;
 		grid-column: 1 / -1;
 	}
 `;

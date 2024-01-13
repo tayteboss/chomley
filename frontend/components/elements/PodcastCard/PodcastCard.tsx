@@ -40,7 +40,9 @@ const ContentWrapper = styled.div<{ $isActive: boolean }>`
 `;
 
 const PodcastCard = (props: PodcastType) => {
-	const { title, formattedDate, excerpt, link, linkTitle } = props;
+	const { title, formattedDate, excerpt, link, linkTitle, date } = props;
+
+	const year = date.slice(0, 4);
 
 	const viewport = useViewportWidth();
 	const isMobile = viewport === 'mobile';
@@ -76,9 +78,9 @@ const PodcastCard = (props: PodcastType) => {
 			onMouseLeave={() => handleBlur()}
 		>
 			{title && <Title>{title}</Title>}
-			{formattedDate && <Date>{formattedDate}</Date>}
 			<ContentWrapper $isActive={isHovered && hoverType === 'show'}>
 				{excerpt && <Excerpt>{excerpt}</Excerpt>}
+				{year && <Date>{year}</Date>}
 				{link && linkTitle && (
 					<Link href={link} target="_blank">
 						{linkTitle}
