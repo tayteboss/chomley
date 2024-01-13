@@ -23,9 +23,13 @@ const ShowcaseCardWrapper = styled.div`
 
 const Title = styled.p``;
 
-const Excerpt = styled.p``;
+const Excerpt = styled.p`
+	margin-bottom: ${pxToRem(8)};
+`;
 
-const Date = styled.p``;
+const Date = styled.p`
+	margin-bottom: ${pxToRem(8)};
+`;
 
 const Link = styled.a`
 	display: inline-block;
